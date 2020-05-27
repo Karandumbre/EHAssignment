@@ -1,0 +1,47 @@
+<div>
+    <div class="w-100 text-right mb-2 position-absolute" style="top: 10px;right: 10px;">
+        <button class="btn btn-warning  text-white" data-toggle="modal" data-target="#usermodal"
+            (click)='editUserData(null)'>Create
+            User</button>
+    </div>
+    <ng-container *ngIf="showTableDashboard">
+        <div class='admin'>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th *ngFor="let key of keys" class="text-capitalize">
+                            {{key}}
+                        </th>
+                        <th>
+                            Remove
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let item of UserData;let i = index">
+                        <tr class="table-data" data-toggle="modal" data-target="#usermodal"
+                            [ngClass]="{'inactive':item.Status === 'Inactive'}" (click)='editUserData(i)'>
+                            <td>{{item.id}}</td>
+                            <td>{{item.FirstName}}</td>
+                            <td>{{item.LastName}}</td>
+                            <td>{{item.Email}}</td>
+                            <td>{{item.Phone}}</td>
+                            <td>{{item.Status}}</td>
+                            <td (click)='$event.stopPropagation();deleteUser(i)' style="pointer-events: all;">
+                                <button class="btn btn-danger btn-group-sm">Delete</button>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+
+    </ng-container>
+</div>
+
+<div class="modal fade" id="usermodal">
+    <app-create-user [CurrentUserData]='user' [toUpdate]='ChildConfig.toUpdate' *ngIf="showUserModal"
+        (messageToEmit)="closeModal()">
+        {{ChildConfig.message}}
+    </app-create-user>
+</div>
