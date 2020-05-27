@@ -2,9 +2,32 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.24.
 
-## Development server
+## Install Node
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Go to the Below link. Download the node application which is suitable for your local system.
+https://nodejs.org/en/download/
+
+Install the Node application.
+To check if node is installed on your system, run command `node -v` or `npm -v`
+
+## Install Angular Cli
+Open command prompt and
+Run `npm install -g @angular/cli@8.3.24` inorder to install the Angular Cli on to your system
+To confirm whether Angular Cli is installed, run `ng --version` command
+
+## Install Node Modules
+
+To install the node modules, go to the project directory and run command `npm install`
+
+## Development Backend Dummy Server
+Go to the project directory, open command prompt and
+
+Run `npm run dev-server` to start the JSON-server
+
+## Development server
+Go to the project directory, open another command prompt and
+
+Run `npm run start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
