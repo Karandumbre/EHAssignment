@@ -12,8 +12,7 @@ import { AppComponent } from './app.component';
 import { CreateUserComponent } from './components/dashboard/create-user/create-user.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HeaderComponent } from './common/header/header.component';
-import { UserListComponent } from './components/dashboard/UserList/user-list.component';
-import { CookieService } from 'ngx-cookie-service';
+import { UserListComponent } from './components/dashboard/user-list/user-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +29,7 @@ import { CookieService } from 'ngx-cookie-service';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [CookieService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/Services/user.service';
-import { StorageService } from './../../Services/storage.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +9,7 @@ import { StorageService } from './../../Services/storage.service';
 export class DashboardComponent implements OnInit {
   public showUserListPanel: boolean;
   public UserData: any;
-  constructor(private userService: UserService, private storage: StorageService) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.fetchProfiles();

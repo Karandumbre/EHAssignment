@@ -3,9 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { User } from './user.model';
 import { Observable, Subject } from 'rxjs';
-import { Router } from '@angular/router';
-import { StorageService } from './storage.service';
-
+import { HttpService } from './http.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -21,35 +19,30 @@ export class UserService {
 
   public isAdmin = false;
 
-  constructor(private http: HttpClient, private storage: StorageService) {
-
-  }
+  constructor(private http: HttpClient, private httpService: HttpService) { }
 
   refreshData() {
     this.refresh.next('refresh');
   }
-  postUser(user: User): Observable<any> {
-    return this.http.post<any>('http://localhost:3000/profile/', user);
+
+  createUser(user: User): Observable<any> {
+    return this.httpService.call(environment.apiBaseUrl, 'POST', user);
   }
 
   UpdateUserDetails(data) {
-    return this.http.put<any>(`http://localhost:3000/profile/${data.id}`, data);
-  }
-
-  deleteToken() {
-    this.storage.FlushAll();
+    return this.httpService.call(`${environment.apiBaseUrl}/${data.id}`, 'PUT', data);
   }
 
   getUserDetails(id): Observable<User> {
-    return this.http.get<User>('http://localhost:3000/profile/id');
+    return this.httpService.call(`${environment.apiBaseUrl}/${id}`, 'GET', '');
   }
 
 
   fetchAllUserProfile(): Observable<User[]> {
-    return this.http.get<User[]>('http://localhost:3000/profile');
+    return this.httpService.call(environment.apiBaseUrl, 'GET', '');
   }
 
   deleteUser(id): Observable<User> {
-    return this.http.delete<User>(`http://localhost:3000/profile/${id}`);
+    return this.httpService.call(`${environment.apiBaseUrl}/${id}`, 'DELETE', '');
   }
 }

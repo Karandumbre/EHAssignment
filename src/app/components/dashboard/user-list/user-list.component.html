@@ -8,9 +8,14 @@
         <div class='admin'>
             <table class="table table-hover">
                 <thead>
-                    <tr>
-                        <th *ngFor="let key of keys" class="text-capitalize">
-                            {{key}}
+                    <tr class="text-center">
+                        <ng-container *ngFor="let key of keys">
+                            <th [ngClass]="{'d-none': key === 'id'}" class="text-capitalize">
+                                {{key}}
+                            </th>
+                        </ng-container>
+                        <th>
+                            Change Status
                         </th>
                         <th>
                             Remove
@@ -19,14 +24,17 @@
                 </thead>
                 <tbody>
                     <ng-container *ngFor="let item of UserData;let i = index">
-                        <tr class="table-data" data-toggle="modal" data-target="#usermodal"
+                        <tr class="table-data text-center" data-toggle="modal" data-target="#usermodal"
                             [ngClass]="{'inactive':item.Status === 'Inactive'}" (click)='editUserData(i)'>
-                            <td>{{item.id}}</td>
                             <td>{{item.FirstName}}</td>
                             <td>{{item.LastName}}</td>
                             <td>{{item.Email}}</td>
                             <td>{{item.Phone}}</td>
                             <td>{{item.Status}}</td>
+                            <td (click)='$event.stopPropagation();ChangeUserStatus(i)' style="pointer-events: all;">
+                                <button class="btn btn-warning btn-group-sm">Mark as
+                                    {{checkStatus(item.Status)}}</button>
+                            </td>
                             <td (click)='$event.stopPropagation();deleteUser(i)' style="pointer-events: all;">
                                 <button class="btn btn-danger btn-group-sm">Delete</button>
                             </td>

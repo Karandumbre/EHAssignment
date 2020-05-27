@@ -2,7 +2,6 @@ import { Component, OnInit, Input, EventEmitter, Output, ElementRef, ViewChild }
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { UserService } from '../../../Services/user.service';
 import { Router } from '@angular/router';
-import { StorageService } from '../../../Services/storage.service';
 
 @Component({
   selector: 'app-create-user',
@@ -28,7 +27,7 @@ export class CreateUserComponent implements OnInit {
   public Email: FormControl;
   public Phone: FormControl;
   public Status: FormControl;
-  constructor(public userService: UserService, protected router: Router, protected storage: StorageService, private fb: FormBuilder) { }
+  constructor(public userService: UserService, protected router: Router, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.createFormControls();
@@ -65,7 +64,6 @@ export class CreateUserComponent implements OnInit {
   }
 
   updateUserDetails() {
-    console.log(this.CurrentUserData);
     const data = {
       ...this.CurrentUserData,
       Email: this.Email.value,
@@ -76,13 +74,7 @@ export class CreateUserComponent implements OnInit {
     };
 
     this.userService.UpdateUserDetails(data).subscribe((res) => {
-      if (res.status === true) {
-        alert('User Updated successfully');
-        this.resetForm();
-        this.CloseModal.nativeElement.click();
-      }
-    }, err => {
-      this.errorHandler(err);
+      this.resetForm('Updated');
     });
   }
 
@@ -92,13 +84,8 @@ export class CreateUserComponent implements OnInit {
       ...this.SignUpForm.value,
       id: `EH-${this.randomIdGenerator()}`
     };
-    this.userService.postUser(data).subscribe((res) => {
-      this.userService.refreshData();
-      alert('User Created successfully');
-      this.resetForm();
-      this.CloseModal.nativeElement.click();
-    }, err => {
-      this.errorHandler(err);
+    this.userService.createUser(data).subscribe((res) => {
+      this.resetForm('Created');
     });
   }
 
@@ -106,20 +93,13 @@ export class CreateUserComponent implements OnInit {
     return Math.floor(100000 + Math.random() * 900000);
   }
 
-  errorHandler(err) {
-    if (err.status === 422) {
-      this.serverErrorMessages = err.error.join('<br/>');
-    } else if (err.message && err.message.code === 11000) {
-      this.serverErrorMessages = 'Duplicate Emails Found';
-    } else {
-      this.serverErrorMessages = 'Something went wrong.Please contact admin.';
-    }
-  }
-
-  resetForm() {
+  resetForm(args) {
+    this.userService.refreshData();
+    alert(`User ${args} successfully`);
     this.SignUpForm.reset();
     this.SignUpForm.markAsUntouched();
     this.serverErrorMessages = '';
+    this.CloseModal.nativeElement.click();
   }
 
   CloseUserModal() {

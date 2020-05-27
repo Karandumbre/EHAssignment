@@ -50,9 +50,19 @@ export class UserListComponent implements OnInit {
     const id = this.UserData[i].id;
     this.userService.deleteUser(id).subscribe(() => {
       alert('User Deleted Successfully');
-      this.userService.refresh.next('refresh');
+      this.userService.refreshData();
     });
   }
 
-}
+  checkStatus(status) {
+    return (status === 'Active' ? 'Inactive' : 'Active');
+  }
 
+  ChangeUserStatus(i) {
+    const data = this.UserData[i];
+    data.Status = data.Status === 'Active' ? 'Inactive' : 'Active';
+    this.userService.UpdateUserDetails(data).subscribe(() => {
+      this.userService.refreshData();
+    });
+  }
+}
